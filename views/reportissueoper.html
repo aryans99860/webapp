@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual to Operate</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #Fceeee;
+        }
+        .input-group {
+            margin-bottom: 30px;
+        }
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .input-group input[type="text"],
+        .input-group textarea {
+            width: 95%;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #CCC;
+            box-sizing: border-box;
+        }
+        .input-group textarea {
+            height: 200px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            color: #007bff;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .notification {
+            margin-top: 20px;
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <a class="logo" href="_/operator-dashboard">
+            <img src="/images/lttslogo.png" alt="logo">
+        </a>
+        <h1>Report an Issue</h1>
+    </header>
+
+    <!-- Main Content Section -->
+    <br>
+    <br>
+    <div class="input-group">
+        <label for="issue-title">&nbsp;Issue Title:</label>
+        <input type="text" id="issue-title" placeholder="Enter issue title...">
+    </div>
+    <div class="input-group">
+        <label for="issue-details">&nbsp;Issue Details:</label>
+        <textarea id="issue-details" placeholder="Enter issue details..."></textarea>
+    </div>
+    <button class="btn" onclick="submitIssue()">Submit Issue</button>
+    <div class="notification" id="notification">Your issue has been submitted and sent for review.</div>
+    
+    <script>
+        function submitIssue() {
+            // Code to handle submitting the issue goes here
+            document.getElementById("notification").style.display = "block";
+            setTimeout(function(){ history.back(); }, 3000);
+        }
+    </script>
+    
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 Table Saw Operator Performance</p>
+    </footer>
+    
+    <!-- External Javascript for animations -->
+    
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function submitIssue() {
+            var title = $("#issue-title").val();
+            var details = $("#issue-details").val();
+
+            $.ajax({
+                url: "/submit-issue",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ title: title, details: details }),
+                success: function(response) {
+                    $("#notification").text(response).show();
+                    setTimeout(function(){ history.back(); }, 3000);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
+        }
+    </script>
+    
+    </body>
+    </html>
+    

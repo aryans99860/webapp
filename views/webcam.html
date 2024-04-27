@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Webcam</title>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="/css/safety.css">
+    <style>
+        body {
+            background-color: #fceeee;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            flex-direction: column; /* Align content in a column */
+        }
+
+        #webcamContainer {
+            border: 5px solid #000;
+            align-content: center;
+            max-width: 100%;
+            max-height: 70vh; /* Limit maximum height to 70% of viewport height */
+            overflow: hidden; /*Hide overflowing content */
+        }
+
+        #webcamVideo {
+            width: 100%; /* Ensure video fills container width */
+            height: 100%; /* Ensure video fills container height */
+        }
+
+        #outputCanvas {
+            display: none; /* Hide the canvas if not needed */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a class="logo" href="/operator-dashboard">
+            <img src="/images/lttslogo.png" alt="logo">
+        </a>
+        <h1>Object Detection</h1>
+    </header>
+    <br>
+    <br>
+    <div id="webcamContainer">
+        <video id="webcamVideo" autoplay></video>
+    </div>
+    <canvas id="outputCanvas"></canvas>
+
+    <script src="/js/client.js"></script>
+    
+    <!-- Include ONNX.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/onnxjs/dist/onnx.min.js"></script>
+
+    <!-- Include TensorFlow.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    
+    <footer>
+        <p>&copy; 2024 Table Saw Operator Performance</p>
+    </footer>
+</body>
+</html>

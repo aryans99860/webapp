@@ -1,0 +1,132 @@
+/* Global Styles */
+.logo {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    height: 50px;
+    width: auto;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles */
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+header h1 {
+    margin: 0;
+}
+
+/* Main Content Styles */
+.main-content {
+    padding: 50px 0;
+}
+.main-content h2 {
+    color: #333;
+}
+
+.main-content ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.main-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Footer Styles */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff; /* Assuming this is the text color */
+    text-align: center;
+    padding: 1rem;
+}
+/* Media Query for Responsive Design */
+@media (max-width: 768px) {
+    .col-md-6 {
+        width: 100%;
+    }
+}
+
+/* Form Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex; /* Make form-group flex container */
+    align-items: center; /* Align items vertically */
+}
+
+input[type="checkbox"] + label {
+    margin-left: 10px; /* Add spacing between checkbox and label */
+    cursor: pointer;
+    font-size: 16px;
+}
+
+input[type="checkbox"] + label:before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #007bff;
+    border-radius: 3px;
+    margin-right: 10px; /* Add spacing between checkbox and label */
+}
+
+input[type="checkbox"]:checked + label:before {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}

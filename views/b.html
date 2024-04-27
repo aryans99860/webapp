@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #fceeee;
+        }
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            height: 50px;
+            width: auto;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        /* Header Styles */
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+        header h1 {
+            margin: 0;
+        }
+        /* Main Content Styles */
+        .main-content {
+            padding: 50px 0;
+        }
+        .main-content h2 {
+            color: #333;
+        }
+        .main-content ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .main-content img {
+            max-width: 100%;
+            height: auto;
+        }
+        /* Individual Report Field Styles */
+        .report-field {
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        /* Footer Styles */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+        /* Media Query for Responsive Design */
+        @media (max-width: 768px) {
+            .col-md-6 {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <a class="logo" href="/operator-dashboard">
+            <img src="/images/lttslogo.png" alt="logo">
+        </a>
+        <h1>EXPORT REPORT</h1>
+    </header>
+    <div class="container main-content">
+        <ul id="reportlist"></ul>
+        <button id="downloadButton">Download Report</button>
+    </div>
+    <footer>
+        <p>&copy; 2024 Table Saw Operator Performance</p>
+    </footer>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script>
+        const socket = io();
+        // Function to update UI with reports
+        function updateReports(reports) {
+            const reportList = document.getElementById('reportlist');
+            reportList.innerHTML = '';
+            reports.forEach(report => {
+                const li = document.createElement('li');
+                // Create separate divs for each field
+                const bladeguardDiv = createFieldDiv('Bladeguard', report.bladeguard);
+                const apronDiv = createFieldDiv('Apron', report.apron);
+                const rivingKnifeDiv = createFieldDiv('Riving Knife', report.rivingKnife);
+                const eyeglassesDiv = createFieldDiv('Eyeglasses', report.eyeglasses);
+                const pushStickDiv = createFieldDiv('Push-Stick', report.pushStick);
+                const speedOfBladeDiv = createFieldDiv('Speed of Blade', report.speedOfBlade);
+                const angleOfBladeDiv = createFieldDiv('Angle of Blade', report.angleOfBlade);
+                const heightOfBladeDiv = createFieldDiv('Height of Blade', report.heightOfBlade);
+                
+                li.appendChild(bladeguardDiv);
+                li.appendChild(apronDiv);
+                li.appendChild(rivingKnifeDiv);
+                li.appendChild(eyeglassesDiv);
+                li.appendChild(pushStickDiv);
+                li.appendChild(speedOfBladeDiv);
+                li.appendChild(angleOfBladeDiv);
+                li.appendChild(heightOfBladeDiv);
+
+                reportList.appendChild(li);
+            });
+        }
+        
+        function createFieldDiv(fieldName, value) {
+            const fieldDiv = document.createElement('div');
+            fieldDiv.textContent = `${fieldName}: ${value}`;
+            fieldDiv.classList.add('report-field');
+            return fieldDiv;
+        }
+        
+        // Fetch reports initially
+        fetch('/api/reports')
+            .then(response => response.json())
+            .then(reports => { 
+                updateReports(reports);
+            })
+            .catch(error => console.error('Error fetching reports:', error));
+        
+        // Listen for real-time updates
+        socket.on('reportChange', () => {
+            fetch('/api/reports')
+                .then(response => response.json())
+                .then(reports => { 
+                    updateReports(reports);
+                })
+                .catch(error => console.error('Error fetching reports:', error));
+        });
+
+        // Add event listener for download button
+        document.getElementById('downloadButton').addEventListener('click', function() {
+            const element = document.getElementById('reportlist');
+            html2pdf().from(element).save();
+        });
+    </script>
+</body>
+</html>

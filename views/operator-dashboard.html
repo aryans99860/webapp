@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operator Dashboard</title>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<style>
+    body {
+        background-color: #fceeee;
+    }
+
+    .reportbtn i {
+        display: block;
+        text-align: right;
+        margin: 10px 30px;
+    }
+
+    .reportbtn button i {
+        background-color: #0070ff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    hr {
+        margin: 20px;
+    }
+
+    .status-box i {
+        border: 1px solid #ccc;
+        padding: 15px;
+        margin: 10px 30px;
+        border-radius: 5px;
+        width: 150px;
+        float: right;
+    }
+
+    .status-line {
+        height: 10px;
+        margin-bottom: 2px;
+        border-radius: 3px;
+        border: 1px solid black;
+    }
+
+    .status-text {
+        margin-bottom: 5px;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+
+    .idle {
+        background-color: yellow;
+    }
+
+    .running {
+        background-color: green;
+    }
+
+    .paused {
+        background-color: blue;
+    }
+
+    .default {
+        background-color: red;
+    }
+
+    /* Navbar styles */
+    nav.navbar {
+        margin-bottom: 20px;
+    }
+
+    .navbar-brand img {
+        width: 30px;
+        height: auto;
+        margin-right: 10px;
+    }
+</style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/operator-dashboard">
+            <img src="/images/lttslogo.png" alt="logo"> Operator Dashboard
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Menu
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/editoper">Edit Profile</a>
+                        <a class="dropdown-item" href="/safetyoper">Safety Precautions</a>
+                        <a class="dropdown-item" href="/manualoper">Manual</a>
+                        <a class="dropdown-item" href="/trainingoper">Training Video Sessions</a>
+                        <a class="dropdown-item" href="/helpoper">Help</a>
+                        <a class="dropdown-item" href="/index">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="reportbtn">
+    <a href="/reportissueoper">
+        <button>Report an Issue</button>
+    </a>
+</div>
+<div class="status-box">
+    <h6><b>Machine Status</b></h6>
+    <div class="hr"><hr></div>
+    <div class="status-text">Idle</div>
+    <div>
+        <div class="status-line idle"></div>
+        <hr>
+    </div>
+    <div class="status-text">Running</div>
+    <div class="status-line running"></div>
+    <hr>
+    <div class="status-text">Pause</div>
+    <div>
+        <div class="status-line paused"></div>
+        <hr>
+    </div>
+    <div class="status-text">Fault</div>
+    <div>
+        <div class="status-line fault"></div>
+        <hr>
+    </div>
+    <div class="container mt-5">
+        <h3>Previous Work History:</h3>
+        <p>No previous work history available</p>
+        <a href="/b" class="btn btn-success">Export Report</a>
+        <button id="openWebcamButton">Start</button>    </div>
+</div>
+<footer>
+    <p>&copy; 2024 Table Saw Operator Performance</p>
+</footer>
+<!-- Bootstrap JS (optional) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    document.getElementById('openWebcamButton').addEventListener('click', function() {
+            window.open('/webcam', '_blank');
+        });
+</script>
+</body>
+</html>

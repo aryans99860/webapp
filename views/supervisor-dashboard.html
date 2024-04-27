@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supervisor Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            background-color: #fceeee;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/supervisor-dashboard">
+                <img src="/images/lttslogo.png" alt="logo">
+                &nbsp; &nbsp; &nbsp; &nbsp; Supervisor Dashboard
+            </a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Menu
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/editsup">Edit Profile</a>
+                            <a class="dropdown-item" href="/safetysup">Safety Precautions</a>
+                            <a class="dropdown-item" href="/manualsup">Manual</a>
+                            <a class="dropdown-item" href="/trainingsessionsup">Training Video Sessions</a>
+                            <a class="dropdown-item" href="/helpsup">Help</a>
+                            <a class="dropdown-item" href="/index">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h4>Operator List</h4>
+        <ul class="list-group" id="operator-list">
+            <!-- Operator names will be dynamically added here -->
+        </ul>
+    </div>
+
+    <footer class="bg-dark text-white py-3">
+        <div class="container text-center">
+            <p>&copy; 2024 Table Saw Operator Performance</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Function to create a list item for an operator
+        function createOperatorListItem(operator) {
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+            listItem.setAttribute('data-operator-id', operator._id);
+
+            const anchor = document.createElement('a');
+            anchor.href = '/operator-profile/' + operator._id; // Adjust the href attribute as needed
+            anchor.innerText = operator.name;
+
+            const buttonWrapper = document.createElement('div');
+            buttonWrapper.className = 'd-flex align-items-center';
+
+            const reportButton = document.createElement('button');
+            reportButton.innerText = 'REPORT';
+            reportButton.className = 'btn btn-link btn-report mr-2'; // Add custom class for styling
+            reportButton.addEventListener('click', () => {
+                // Perform action when report button is clicked, e.g., redirecting to another page
+                window.location.href = '/report';
+            });
+
+            const deleteButton = document.createElement('button');
+            deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+            deleteButton.className = 'btn btn-link btn-delete';
+            deleteButton.addEventListener('click', () => {
+                // Prompt the user to confirm the deletion
+                const confirmed = confirm('Are you sure you want to delete this operator?');
+                if (confirmed) {
+                    // Perform deletion
+                    deleteOperator(operator._id);
+                }
+            });
+
+            buttonWrapper.appendChild(reportButton);
+            buttonWrapper.appendChild(deleteButton);
+
+            listItem.appendChild(anchor);
+            listItem.appendChild(buttonWrapper);
+
+            return listItem;
+        }
+
+        // Function to fetch operators from the backend
+        function fetchOperators() {
+            fetch('/api/users?isSupervisor=false')
+                .then(response => response.json())
+                .then(data => {
+                    const operatorList = document.getElementById('operator-list');
+                    operatorList.innerHTML = ''; // Clear existing list items
+                    data.forEach(operator => {
+                        const listItem = createOperatorListItem(operator);
+                        operatorList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching operators:', error));
+        }
+
+        // Function to delete an operator
+        function deleteOperator(operatorId) {
+  return fetch('/api/users/' + operatorId, {
+    method: 'DELETE'
+  })
+    .then(response => {
+      if (response.ok) {
+        // On successful deletion, remove list item from frontend
+        return document.querySelector(`#operator-list [data-operator-id="${operatorId}"]`);
+      } else {
+        throw new Error('Failed to delete operator');
+      }
+    })
+    .then(listItem => {
+      if (listItem) {
+        listItem.remove();
+      }
+    })
+    .catch(error => console.error('Error deleting operator:', error));
+}
+
+
+        // Fetch operators initially
+        fetchOperators();
+    </script>
+</body>
+</html>
